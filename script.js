@@ -1,21 +1,41 @@
-const calculateTemp = () => {
-    const inputTemp = document.getElementById('temp').value;
 
-    const tempSelected = document.getElementById('temp_diff');
-    const valueTemp = temp_diff.options[tempSelected.selectedIndex].value;
-    const celToFah = (cel) => {
-        let fahrenheit = ((cel * 9 / 5) + 32).toFixed(1);
-        return fahrenheit;
-    }
-    const fahToCel = (fah) => {
-        let celsius = ((fah - 32) * 5 / 9).toFixed(1);
-        return celsius;
-    }
+const celsiusField = document.querySelector("#celsius");
+const degree = document.querySelector("#degree");
+const convertBtn = document.querySelector("#convert-btn");
+const tempType = document.querySelector("#temp-type");
 
-    if (valueTemp == 'cel') {
-        document.getElementById("result").innerHTML = celToFah(inputTemp) + "&#176; Fahrenheit";
-    }
-    else {
-        document.getElementById("result").innerHTML = fahToCel(inputTemp) + "&#176; Celsius";
-    }
+
+window.addEventListener("load",() => {
+    degree.value = "";
+    celsiusField.innerHTML = "";
+});
+
+if(degree.value === ""){
+    convertBtn.setAttribute("disabled","");
+    setTimeout(() => {
+        convertBtn.removeAttribute('disabled');
+    }, 4000);
+}
+
+convertBtn.addEventListener("click", (e) =>{
+    e.preventDefault();
+    convertToCelsius();
+    convertBtn.innerHTML ="<span><i class='fa fa-spinner fa-spin'></i>Converting...</span>";
+    setTimeout(() => {
+        convertBtn.innerHTML ="<span>convert</span>"
+    }, 1000);
+});
+
+function convertToCelsius(){
+    let inputValue = degree.value;
+
+    setTimeout(() =>{
+      if(tempType.value ==="fahrenheit"){
+        const fahrenheitToCelsius =(inputValue -32) * (5/9);
+        celsiusField.innerHTML =`${fahrenheitToCelsius.toFixed(3)} &deg;c`; 
+      }else if(tempType.value === "kelvin"){
+            const kelvinToCelsius = inputValue - 273.15;
+            celsiusField.innerHTML = `${kelvinToCelsius.toFixed(3)} &deg;c`;
+        }
+    }, 1200) 
 }
